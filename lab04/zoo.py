@@ -3,6 +3,7 @@ def show_help():
     print("Type 'see' to get a list of all the animals")
     print("Type 'pet' followed by the animal's name to pet a particular animal")
     print("Type 'bye' to leave the zoo and exit the program")
+    print("Type 'feed' followed by the animal's name to feed a particular animal")
 
 
 def show_all_animals():
@@ -10,6 +11,8 @@ def show_all_animals():
     print("• Clover the Bunny 🐇")
     print("• Coco the Baby Goat 🐐")
     print("• Arno the Alligator 🐊")
+    print("• Clem the Cat 🐈")
+    print("• Larry the Rat 🐀")
 
 
 def pet_animal(animal):
@@ -19,8 +22,27 @@ def pet_animal(animal):
         print("Coco the Baby Goat thanks you! 🥰")
     elif animal == "arno":
         print("Actually, we cannot allow you to pet Arno. ⛔️")
+    elif animal == "clem":
+        print("Clem the Cat is emitting loud purrs 😻")
+    elif animal == "larry":
+        print("We recommend you wash your hands after petting Larry, he's a street rat ☣️")
     else:
         print("Sorry, I don't know that animal")
+
+def feed_animal(animal):
+    if animal == "clover":
+        print("Clover LOVES lettuce! Thank you! 🥬🥬")
+    elif animal == "coco":
+        print("You spoiled Coco with her favorite treat: carrots 🥕🥕🥕")
+    elif animal == "arno":
+        print("Ok... You better throw this fish from very far away 🐟")
+    elif animal == "clem":
+        print("Clem is on a diet but he appreciates the thought 😿")
+    elif animal == "larry":
+        print("Sorry, we can't let you feed Larry. We don't want him to stay 🛑")
+    else:
+        print("Sorry, I don't know that animal")
+
 
 
 print("Welcome to the Petting Zoo!")
@@ -37,6 +59,9 @@ while True:
     elif response.startswith("pet "):
         animal = response[4:]
         pet_animal(animal)
+    elif response.startswith("feed "):
+        animal = response[5:]
+        feed_animal(animal)
     elif response == "bye":
         print("Goodbye!")
         break
