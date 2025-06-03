@@ -12,7 +12,11 @@ def is_odd(n):
     Returns True if n is odd, False otherwise.
     """
     # replace the pass statement with your code
-    pass
+    if n % 2 == 0:
+        return("False")
+    else:
+        return("True")
+    
 
 
 def median_of_three(a, b, c):
@@ -20,7 +24,32 @@ def median_of_three(a, b, c):
     Returns the median of three numbers a, b, and c.
     """
     # replace the pass statement with your code
-    pass
+    if a>b:
+        if a>c:
+            if b>c:
+                median = b
+            else:
+                median = c
+        else:
+            median = a
+    elif a>c:
+        median = a 
+    elif b>a:
+        if b>c:
+            median = c
+        else:
+            median = b
+    elif c>a:
+        median = b
+    else:
+        median = a
+    print("The median of", a, ",", b, ", and", c, "is", median )
+        
+median_of_three(33, 0, 70)
+median_of_three(20, 20, 20)
+median_of_three(1, 0, -1)
+median_of_three(9, 900, 43)
+
 
 
 def is_palindrome(s):
@@ -32,7 +61,17 @@ def is_palindrome(s):
     reversal.
     """
     # replace the pass statement with your code
-    pass
+    if s.replace(" ", "") == s[::-1].replace(" ", ""):
+        palindrome = True
+        print (s, "is a palindrome")
+    else:
+        palindrome = False
+        print( s, "is not a palindrome")
+
+is_palindrome("taco cat")
+is_palindrome("apple")
+is_palindrome("oogplpgoo")
+
 
 
 def factorial(n):
@@ -43,8 +82,13 @@ def factorial(n):
     positive integers less than or equal to n. Please implement this
     function with a for loop.
     """
-    # replace the pass statement with your code
-    pass
+    # replace the pass statement with your 
+    factorial = 1
+    for count in range(1, n + 1):
+       factorial *= count 
+    print( factorial )
+
+factorial(6)
 
 
 def count_of_latin_vowels(s):
@@ -55,7 +99,14 @@ def count_of_latin_vowels(s):
     function using a for loop to iterate through the string.
     """
     # replace the pass statement with your code
-    pass
+    vowels = 0
+    for count in s:
+        if count in "aeiouAEIOU":
+            vowels = vowels + 1
+    print(vowels)
+
+count_of_latin_vowels('asdfjhoqieu')
+
 
 
 def longest_string(strings):
@@ -66,7 +117,16 @@ def longest_string(strings):
     the first one encountered.
     """
     # replace the pass statement with your code
-    pass
+    LongestString = ""
+    for count in strings.split(", "):
+        if len(count) > len(LongestString):
+            LongestString = count
+    print(LongestString)
+
+longest_string("cat, alligator, apple, end")      
+        
+
+
 
 
 def word_frequencies(s):
@@ -79,4 +139,11 @@ def word_frequencies(s):
     You can implement this function using the split method.
     """
     # replace the pass statement with your code
-    pass
+    words = {}
+    for count in s.split():
+        if count not in words: 
+            words[count] = 0
+        words[count] += 1
+    print(words)            
+
+word_frequencies("the lazy green alligator took it's lazy green tail to the lazy lake")
