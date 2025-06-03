@@ -1,12 +1,3 @@
-# ----------------------------------------------------------------------
-# This is the file functions_cardio.py
-
-# The intent is to give you practice writing functions.
-
-# Complete the functions below.
-# Remove this comment when you have completed the functions.
-# ----------------------------------------------------------------------
-
 def is_odd(n):
     """
     Returns True if n is odd, False otherwise.
