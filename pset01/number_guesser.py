@@ -1,7 +1,8 @@
 
 import random
 
-def NumberGuesser():
+
+def number_guesser():
     print("")
     print("To pass Number Guesser, you must guess the number that the Mystical Monty has chosen for you. Guess a number between 1 and 1000.")
     print("Please type 'Bye' or 'Exit' to quit the program.")
@@ -13,10 +14,11 @@ def NumberGuesser():
     guess_attempts = 0 
     #creates guess attempts variable and zeroes it out at the beginning of the program
 
-    GuessMonty(random_number, guess_attempts) 
+    guess_monty(random_number, guess_attempts) 
     #calls the guessing game function with parameters so that there is a new random number each game and attempts are zeroed
 
-def GuessMonty(random_number, guess_attempts):
+
+def guess_monty(random_number, guess_attempts):
     while True:
         response = input("Please type your guess for the number that Monty has chosen:").strip().lower() 
         #takes input from the user
@@ -36,7 +38,7 @@ def GuessMonty(random_number, guess_attempts):
                 guess_attempts = guess_attempts + 1
             elif response_int == random_number:
                 print("Congratulations! You guessed the number!", "Attempts:", (guess_attempts + 1)) #tells the user that their guess is correct and tells how many guesses they took
-                NumberGuesser() 
+                number_guesser() 
                 #restarts the NumberGuesser() function which creates a new random number, zeroes the attempts count, and restarts the GuessMonty() function
             else:
                 print("Please enter a valid number") 
@@ -61,5 +63,5 @@ def GuessMonty(random_number, guess_attempts):
                 continue
                 # again this should never actually be reached it's just a 'just in case'
 
-NumberGuesser()
+number_guesser()
 #this starts the program the first time
