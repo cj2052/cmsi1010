@@ -1,34 +1,65 @@
-# ----------------------------------------------------------------------
-# This is the file number_guesser.py
 
-# The intent is to give you practice writing a complete, interactive
-# Python program.
+import random
 
-# Remove the comments in this file when you have completed your program.
-# You can, and should, include your own comments, but please remove the
-# comments that are here now.
-# ----------------------------------------------------------------------
+def NumberGuesser():
+    print("")
+    print("To pass Number Guesser, you must guess the number that the Mystical Monty has chosen for you. Guess a number between 1 and 1000.")
+    print("Please type 'Bye' or 'Exit' to quit the program.")
+    print("")
+    #Intro strings when program is initiated or restarted
 
-# Things to do:
+    random_number = random.randint(1,1001) 
+    #creates random number between 1 and 1000
+    guess_attempts = 0 
+    #creates guess attempts variable and zeroes it out at the beginning of the program
 
-# Generate a random number between 1 and 1000.
+    GuessMonty(random_number, guess_attempts) 
+    #calls the guessing game function with parameters so that there is a new random number each game and attempts are zeroed
 
-# Ask the user to guess the number. In your prompt, let the user know they
-# can type 'bye' or 'exit' to quit the program.
-#
-# If their guess is not made up entirely of digits, print "Please enter a valid
-# number" and ask them to guess again.
-#
-# If the guess is too high, print "Too high!" and continue asking.
-#
-# If the guess is too low, print "Too low!" and continue asking.
-#
-# If the guess is correct, print "Congratulations! You guessed the number!" along
-# with the number of attempts it took to guess the number. Start over with a new
-# random number. Make sure to zero out the number of attempts.
+def GuessMonty(random_number, guess_attempts):
+    while True:
+        response = input("Please type your guess for the number that Monty has chosen:").strip().lower() 
+        #takes input from the user
+        try:
+            response_int = int(response) 
+            #turns the input from a string into an integer so it can be compared to Monty's random number
+            if response_int not in range(1,1001): 
+                print("Please enter a valid number.") 
+                #ensures that the number guessed is within the range
+            elif response_int < random_number:
+                print("Too Low!") 
+                #compares the number guessed to Monty's number and tells if it's too low
+                guess_attempts = guess_attempts + 1
+            elif response_int > random_number:
+                print("Too High!")
+                #compares the number guessed to Monty's number and tells if it's too high
+                guess_attempts = guess_attempts + 1
+            elif response_int == random_number:
+                print("Congratulations! You guessed the number!", "Attempts:", (guess_attempts + 1)) #tells the user that their guess is correct and tells how many guesses they took
+                NumberGuesser() 
+                #restarts the NumberGuesser() function which creates a new random number, zeroes the attempts count, and restarts the GuessMonty() function
+            else:
+                print("Please enter a valid number") 
+                #this should never be reached, it's just there as a 'just in case'
+        except ValueError: 
+            #this ensures that there isn't an error message when a string (or something else) is input by the user
+            if response == "bye": 
+                print("The Mystical Monty will see you next time!") 
+                #I tried to use "if response == 'bye' or 'exit':" but for some reason that always came back as true no matter what I typed
+                # so I separated them into two if statements
+                break 
+                # ends the program 
+            elif response == "exit":
+                print("The Mystical Monty will see you next time!")
+                break 
+                #There is a bug where when I play multiple times typing 'exit' doesn't get me out of the program, it just prints the message
+                # ... but typing 'bye' works just fine
+                #Typing 'exit' works on the first play through, though
+                #I'm not sure why this is...... they both should do exactly the same thing???
+            else:
+                print("Please enter a valid number")
+                continue
+                # again this should never actually be reached it's just a 'just in case'
 
-# Please note: There are likely to be a number of Python guessing games online,
-# and most GenAI systems can probably write this for you. Don’t rely on them,
-# as they rob you of a chance to practice your Python skills and they might not
-# even be correct. Perhaps, worse, they might not follow the instructions
-# exactly as given.
+NumberGuesser()
+#this starts the program the first time
