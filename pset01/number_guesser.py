@@ -43,7 +43,7 @@ def guess_monty(random_number, guess_attempts):
             else:
                 print("Please enter a valid number") 
                 #this should never be reached, it's just there as a 'just in case'
-        except ValueError: 
+        except ValueError: #could use isinstance()
             #this ensures that there isn't an error message when a string (or something else) is input by the user
             if response == "bye": 
                 print("The Mystical Monty will see you next time!") 
