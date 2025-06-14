@@ -64,7 +64,7 @@ def middle_element_of_list(a):
     if not isinstance(a, list):
         raise TypeError("Input must be a list")
     if len(a) % 2 == 0: 
-        return a[len(a)//2 - 1]
+        return a[len(a)//2 - 1] 
     return a[len(a)//2]
     
 
@@ -74,9 +74,13 @@ def unique_elements(a):
     Returns a set of unique elements from the input list a.
     If a is not a list, raise a TypeError.
     """
+    unique_elements = set()
     if not isinstance(a, list):
         raise TypeError("Input must be a list")
-    return 
+    for word in a:
+        if word not in unique_elements:
+            unique_elements.add(word)
+    return unique_elements
 
 
 def contains_duplicates(a):
@@ -84,17 +88,32 @@ def contains_duplicates(a):
     Returns True if the input list a contains any duplicate elements,
     and False otherwise. If a is not a list, raise a TypeError.
     """
-    # replace the pass statement with your code
-    pass
-
+    unique_elements = set()
+    if not isinstance(a, list):
+        raise TypeError("Input must be a list")
+    for word in a:
+        if word in unique_elements:
+            return True
+        else:
+            unique_elements.add(word)
+    return False
 
 def is_superset(a, b):
     """
     Returns True if set a is a superset of set b, and False otherwise.
     If either a or b is not a set, raise a TypeError.
     """
-    # replace the pass statement with your code
-    pass
+    
+    if not isinstance(a, set):
+        raise TypeError("Both arguments must be sets")
+    if not isinstance(b, set):
+        raise TypeError("Both arguments must be sets")
+    for count in b:
+        if count not in a:
+            return False
+    else:
+        return True
+    #How do I make this more concise?
 
 
 def is_subset(a, b):
@@ -102,8 +121,15 @@ def is_subset(a, b):
     Returns True if set a is a subset of set b, and False otherwise.
     If either a or b is not a set, raise a TypeError.
     """
-    # replace the pass statement with your code
-    pass
+    if not isinstance(a, set):
+        raise TypeError("Both arguments must be sets")
+    if not isinstance(b, set):
+        raise TypeError("Both arguments must be sets")
+    for count in a:
+        if count not in b:
+            return False
+    else:
+        return True
 
 
 def is_disjoint(a, b):
@@ -111,9 +137,16 @@ def is_disjoint(a, b):
     Returns True if sets a and b are disjoint (i.e., have no elements in common),
     and False otherwise. If either a or b is not a set, raise a TypeError.
     """
-    # replace the pass statement with your code
-    pass
-
+    if not isinstance(a, set):
+        raise TypeError("Both arguments must be sets")
+    if not isinstance(b, set):
+        raise TypeError("Both arguments must be sets")
+    for count in a:
+        if count in b:
+            return False
+        else: 
+            return True
+        
 
 def most_frequent_value_or_values(d):
     """
@@ -122,8 +155,14 @@ def most_frequent_value_or_values(d):
     frequency, return them as a set. If d is empty, return None.
     If d is not a dictionary, raise a TypeError.
     """
-    # replace the pass statement with your code
-    pass
+    frequencies = {}
+    if not isinstance(d, dict):
+        raise TypeError("Input must be a dictionary")
+    if d == "":
+        return None
+    for value in d.values():
+        frequencies[value] = frequencies.get(value, 0) + 1
+
 
 
 def key_is_in_both_dictionaries(d1, d2, key):
@@ -132,8 +171,12 @@ def key_is_in_both_dictionaries(d1, d2, key):
     and False otherwise. If either d1 or d2 is not a dictionary,
     raise a TypeError.
     """
-    # replace the pass statement with your code
-    pass
+    if not isinstance(d1, dict):
+        raise TypeError("First two inputs must be dictionaries")
+    if not isinstance(d2, dict):
+        raise TypeError("First two inputs must be dictionaries")
+    return key in (d1 and d2)
+
 
 
 def word_frequencies(s):
@@ -147,8 +190,14 @@ def word_frequencies(s):
 
     If s is not a string, raise a TypeError.
     """
-    # replace the pass statement with your code
-    pass
+    words = {}
+    if not isinstance(s, str):
+        raise TypeError("Inputs must be strings")
+    for count in s.split():
+        if count not in words: 
+            words[count] = 0
+        words[count] += 1
+    return words   
 
 
 class TestDataStructuresCardio(unittest.TestCase):

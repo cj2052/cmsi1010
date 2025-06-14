@@ -42,7 +42,7 @@ templates = [
         "text": "Yes officer, that :profession stole my :object and :verb(past) it  ", 
         "author": "", 
     }, 
-    {
+    { # famous quotes? Philosophy?
         "text": "", 
         "author": "", 
     }, 
