@@ -1,87 +1,121 @@
-# ----------------------------------------------------------------------
-# This is the file mad_libs.py
+import random 
 
-# The intent is to give you practice writing a complete, interactive
-# Python program using a lot of Python data types, especially lists,
-# sets, and dictionaries.
-
-# Remove ALL of the existing comments in this file prior to submission.
-# You can, and should, add your own comments, but please remove all the
-# comments that are here now.
-# ----------------------------------------------------------------------
-
-# Things to do:
-
-# Define a bunch of templates in which some of the words begin with a colon (:).
-# The words that begin with a colon are the words that you will ask the user
-# to fill in. An example of a template is:
-#
-#     "The :color :animal :action over the :adjective :plant."
-#
-# You should define a list of at least 10 templates. Be creative!
-
-#adjective, body part, noun, verb, adverb, color, exclamation, place, animal
 templates = [
     {
-        "text": " :exclamation!, a :adverb :noun with a :color :bodypart has :verb(past) the :noun.", 
-        "author":":author"
+        "text": " The :adjective life is not worth :ing_verb", 
+        "author":"Socrates"
 }, 
     {
-        "text": "The :adjective :noun seemed extra :adjective at the :place where it was :adverb :verb(ing).", 
-        "author":":author"
+        "text": "The life of man (in a state of nature) is :adjective , :adjective , :adjective , :adjective , and :adjective", 
+        "author":"Thomas Hobbes"
 }, 
     {
-        "text": "That :animal :verb my :adjective :noun while I was :verb(ing) at the :place.", 
-        "author": ":author", 
+        "text": "I :verb therefore I :verb", 
+        "author": "Descartes", 
     }, 
     {
-        "text": ":curse :name! I can't believe you :adverb :verb(past) my :bodypart.", 
-        "author": ":author", 
+        "text": "One cannot :verb twice in the same :noun", 
+        "author": "Heraclitus", 
     }, 
     {
-        "text": "Yes officer, that :profession stole my :object and :verb(past) it  ", 
-        "author": "", 
+        "text": "The mind is not a :noun to be :past_verb , but a :noun to be :past_verb", 
+        "author": "Plutarch", 
     }, 
-    { # famous quotes? Philosophy?
-        "text": "", 
-        "author": "", 
-    }, 
-    {
-        "text": "", 
-        "author": "", 
+    { 
+        "text": "The journey of a :number :noun begins with a single :noun .", 
+        "author": "Lao Tzu", 
     }, 
     {
-        "text": "", 
-        "author": "", 
+        "text": "That which does not :verb us makes us :adjective_comparative", 
+        "author": "Nietzche", 
     }, 
     {
-        "text": "", 
-        "author": "", 
+        "text": ":noun is power", 
+        "author": "Sir Francis Bacon", 
     }, 
     {
-        "text": "", 
-        "author": "", 
+        "text": "Man is born :adjective , and everywhere he is in :noun", 
+        "author": "Jean-Jacques Rousseau", 
+    }, 
+    {
+        "text": "We have two :body_part and one :body_part , so we should :verb more than we :verb", 
+        "author": "Zeno of Citium", 
     }
 ]
 
-# Your app should begin by selecting a random template. Then, for each word
-# that begins with a colon in the template, prompt the user for a word
-# that fits the description. Make sure that their input is between 1 and 30
-# characters long, to prevent them from making too much of a mess of things.
+def check_input(prompt):
+    # This function receives an input from the user and checks it to make sure that it is a reasonable length.
+    # It then return the user response to pass into the mad_libs_sentence function.
+    # This function runs a recursion to continue evaluating the input if it is invalid the first time, only returning
+    # the response when it falls within a valid length parameter.
+    response = input(prompt).strip().lower()
+    if len(response) < 1 or len(response) > 30:
+        print("Please enter a valid response")
+        return check_input(prompt)
+    else:
+        return response
+    
 
-# After the user has filled in all of the words, print the completed
-# template with the user's words filled in. Then after a blank line, print
-# a line crediting the author of the template. Then, print a couple of blank
-# lines and ask them if they want to play again. If they say "yes" (or "sí"
-# or "oui") or any acceptable version of an affirmative answer, start over
-# with a new random template. Otherwise, say "no", print "Thanks for playing!"
-# and exit the program.
+def replace_words(word):
+    # This function takes the response from check_input and replaces the word in the template with the new word from the user.
+    # It returns the new word to be joined in mad_libs_sentence with the rest of the sentence. 
+    if word == ":adjective":
+        new_word = word.replace(word, check_input("Please input an adjective:"))
+    elif word == ":ing_verb":
+        new_word = word.replace(word, check_input("Please input a verb that ends with -ing:"))
+    elif word == ":number":
+        new_word = word.replace(word, check_input("Please input a number:"))
+    elif word == ":verb":
+        new_word = word.replace(word, check_input("Please input a verb:"))
+    elif word == ":noun":
+        new_word = word.replace(word, check_input("Please input a noun:"))
+    elif word == ":past_verb":
+        new_word = word.replace(word, check_input("Please input an verb in the past tense:"))
+    elif word == ":adjective_comparative":
+        new_word = word.replace(word, check_input("Please input a comparative adjective (e.g. better, grander, bigger):"))
+    elif word == ":body_part":
+        new_word = word.replace(word, check_input("Please input a body part:"))
+    else:
+        # this is just for debugging purposes
+        raise ValueError("Something is wrong")
+    return new_word
+  
 
-# Here are some constraints:
+def mad_libs_sentence():
+    sentence_pieces = []
+    current_template = random.choice(templates)
+    # This checks if the word in the template has a : in front (to mark that it needs to be replaced)
+    for word in current_template["text"].split():
+        if word.startswith(":"):
+            sentence_pieces.append(replace_words(word))
+        else:
+            sentence_pieces.append(word)
+    sentence = " ".join(sentence_pieces)
+    author = current_template["author"]
+    # These prints must be inside the function so that the sentence and author match (because the current_template 
+    # selected by random.choice is local)
+    print(f"Here is your completed famous philosophy quote: {sentence}")
+    print("")
+    print(f"Author: {author}")
 
-#   1. The templates should be a list of dictionaries, in which each entry
-#      has a "text" fields and an "author" field. The "text" field should
-#      contain the template string, and the "author" field should contain
-#      the name of the person who wrote the template.
-#
-#   2. The possible "yes" answers should be stored in a set.
+def play_again():
+    # This function is a recursion so that you can continue to play as long as you want! 
+    affirmatives = {"yes", "oui", "si", "ok", "yeah", "okay", "sure", "please", "aye", "neh"}
+        # neh is yes in korean
+    response = input("Do you want to play again?").lower().strip() 
+    if response in affirmatives:
+        mad_libs_sentence()
+        play_again()
+    elif response == "no":
+        print("Thanks for playing")
+        # pass exits the program because play_again() is the last thing to be called
+        pass
+    else:
+        print("Type 'yes' to play again or 'no' to quit the program.")
+        play_again()
+
+
+print("Welcome to the Hall of Famous Philosophers Mad Libs Game")
+mad_libs_sentence()
+print("\n \n")
+play_again()

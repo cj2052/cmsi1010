@@ -155,14 +155,20 @@ def most_frequent_value_or_values(d):
     frequency, return them as a set. If d is empty, return None.
     If d is not a dictionary, raise a TypeError.
     """
-    frequencies = {}
+    frequencies = dict()
+    max_val = 0
+    max_values = set()
     if not isinstance(d, dict):
         raise TypeError("Input must be a dictionary")
-    if d == "":
+    if d == {}:
         return None
     for value in d.values():
         frequencies[value] = frequencies.get(value, 0) + 1
-
+    max_val = max(frequencies.values())
+    for key, value in frequencies.items():
+        if value == max_val:
+            max_values.add(key)
+    return max_values  
 
 
 def key_is_in_both_dictionaries(d1, d2, key):
