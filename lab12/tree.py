@@ -1,28 +1,22 @@
-from math import pi, radians as rad
+from math import radians
 from Tree.core import Tree
 from PIL import Image
 
-branches = (
-    (.5, rad(-70)),
-    (.6, rad(40)),
-    (.4, rad(50))
-)
+background_color = (200, 240, 250)
+leaf_color = (60, 100, 10)
+trunk_width = 30
+base_trunk_color = (255,0,0)
+small_branch_color = (0,0,255)
+branch_gradient = (*base_trunk_color, *small_branch_color)
 
-def main():
-    tree = Tree(
-        pos=(0, 0, 0, -500),
-        branches=branches
-    )
+trunk_length = 250
+first_branch_line = (0, 0, 0, -trunk_length)
+scales_and_angles = [(0.5, radians(-50)), (0.5, radians(5)), (0.6, radians(50))]
+age = 5
 
-    # Let the tree grow
-    tree.grow(10)
-
-    # Move the tree in the right position, so that the tree is completly in the image
-    tree.move_in_rectangle()
-
-    im = Image.new("RGB", tree.get_size(), (239, 239, 239))
-    tree.draw_on(im, (85, 25, 0, 128, 53, 21), (0, 62, 21), 10)
-    im.show()
-
-if __name__ == '__main__':
-    main()
+tree = Tree(pos=first_branch_line, branches=scales_and_angles)
+tree.grow(age)
+tree.move_in_rectangle()
+image = Image.new("RGB", tree.get_size(), background_color)
+tree.draw_on(image, branch_gradient, leaf_color, trunk_width)
+image.show()
