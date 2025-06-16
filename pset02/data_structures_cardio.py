@@ -104,9 +104,7 @@ def is_superset(a, b):
     If either a or b is not a set, raise a TypeError.
     """
     
-    if not isinstance(a, set):
-        raise TypeError("Both arguments must be sets")
-    if not isinstance(b, set):
+    if not (isinstance(a, set) and isinstance(b, set)):
         raise TypeError("Both arguments must be sets")
     for count in b:
         if count not in a:
@@ -121,9 +119,7 @@ def is_subset(a, b):
     Returns True if set a is a subset of set b, and False otherwise.
     If either a or b is not a set, raise a TypeError.
     """
-    if not isinstance(a, set):
-        raise TypeError("Both arguments must be sets")
-    if not isinstance(b, set):
+    if not (isinstance(a, set) and isinstance(b, set)):
         raise TypeError("Both arguments must be sets")
     for count in a:
         if count not in b:
@@ -137,9 +133,7 @@ def is_disjoint(a, b):
     Returns True if sets a and b are disjoint (i.e., have no elements in common),
     and False otherwise. If either a or b is not a set, raise a TypeError.
     """
-    if not isinstance(a, set):
-        raise TypeError("Both arguments must be sets")
-    if not isinstance(b, set):
+    if not (isinstance(a, set) and isinstance(b, set)):
         raise TypeError("Both arguments must be sets")
     for count in a:
         if count in b:
@@ -177,9 +171,7 @@ def key_is_in_both_dictionaries(d1, d2, key):
     and False otherwise. If either d1 or d2 is not a dictionary,
     raise a TypeError.
     """
-    if not isinstance(d1, dict):
-        raise TypeError("First two inputs must be dictionaries")
-    if not isinstance(d2, dict):
+    if not (isinstance(d1, dict) and isinstance(d2, dict)):
         raise TypeError("First two inputs must be dictionaries")
     return key in (d1 and d2)
 
