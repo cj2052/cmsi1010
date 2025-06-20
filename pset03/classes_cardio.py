@@ -100,7 +100,9 @@ class Playlist:
     
     def __str__(self):
         for song in self.songs[::]:
-            return f"{Song.title} by {Song.artist} ({Song.duration}s)"
+            return f"{Song.title} by {Song.artist} ({Song.duration}s) | "
+        if self.songs[::] == []:
+            return "Playlist is empty."
 
 
 
