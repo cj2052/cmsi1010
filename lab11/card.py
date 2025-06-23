@@ -16,7 +16,8 @@ class Card:
 
     def __str__(self):
         suit_str = {"S": "♠", "H": "♥", "D": "♦", "C": "♣"}[self.suit]
-        rank_str = {1: "A", 11: "J", 12: "Q", 13: "K"}.get(self.rank, str(self.rank))
+        rank_str = {1: "A", 11: "J", 12: "Q", 13: "K"}.get(self.rank, 
+str(self.rank))
         return f"{rank_str}{suit_str}"
 
 
