@@ -17,6 +17,7 @@ from dataclasses import dataclass
 import pygame
 import pygame.freetype
 
+#background constants
 WIDTH, HEIGHT = 1024, 600
 SKY_COLOR = (135, 240, 255)
 GRASS_COLOR = (150, 50, 50)
@@ -25,8 +26,8 @@ GRASS_TOP = HEIGHT - GRASS_HEIGHT
 GRASS_RECTANGLE = (0, GRASS_TOP, WIDTH, GRASS_HEIGHT)
 GROUND_LEVEL = HEIGHT - (GRASS_HEIGHT // 2)
 TREE_SPACING = 173
-MAX_PLANE_SPEED = 23
-CRUISING_ALTITUDE = 50
+
+#runway constants
 RUNWAY_COLOR = (200,200,200)
 RUNWAY_HEIGHT = GRASS_HEIGHT // 2
 RUNWAY_TOP = HEIGHT - RUNWAY_HEIGHT - (GRASS_HEIGHT // 4)
@@ -36,12 +37,15 @@ RUNWAY_STRIPE_HEIGHT = 15
 RUNWAY_STRIPE_SPACING = RUNWAY_STRIPE_LENGTH * 2
 RUNWAY_LIGHT_SPACING = 20
 RUNWAY_LIGHT_RADIUS = 5
-CRATER_COLOR = (150, 100, 100)
-CRATER_RADIUS = 25
+
+#plane constants
+MAX_PLANE_SPEED = 23
+CRUISING_ALTITUDE = 50
 PLANE_COLOR = (200,200,200)
 
 score_counter = 0
 
+#setting up background and spaceship images
 bg = pygame.image.load("space2.png")
 ship = pygame.image.load("images/enterprise.png")
 
@@ -51,52 +55,30 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Plane Landing")
 clock = pygame.time.Clock()
 font = pygame.freetype.SysFont('sans', 20)
-
 bg = bg.convert()
 bg = pygame.transform.scale(bg, screen.get_size())
 ship = pygame.transform.scale(ship, (100,50))
 
-class Plane(pygame.sprite.Sprite): 
+class Plane(pygame.sprite.Sprite): #Created Plane class as a sprite to overlay an image onto the plane
 
     def __init__(self, x, y, state="flying", speed=MAX_PLANE_SPEED, rotation=0):
         pygame.sprite.Sprite.__init__(self)
         self.image = ship
-       # Update the position of this object by setting the values of rect.x and rect.y
         self.rect = self.image.get_rect()
         self.state = state
         self.speed = speed
         self.rotation = rotation
         self.x = x
         self.y = y
-        self.rect_center = (WIDTH // 2, self.y, 30, 30)
+        self.rect_center = (WIDTH // 2, self.y)
 
     
-    def draw(self):
-        screen.blit(self.image, (WIDTH // 2, self.y, 30, 30)) 
+    def draw(self): 
+        #blit image with regards to the rotation to ensure that the plane position doesn't get messed up
+        rotated_image = pygame.transform.rotate(ship, self.rotation)
+        new_rect = rotated_image.get_rect(center=(WIDTH // 2, self.y))
+        screen.blit(rotated_image,new_rect)
         
-
-
-
-# @dataclass
-# class Plane:
-#     x: int
-#     y: int
-#     state: str = "flying"
-#     speed: int = MAX_PLANE_SPEED
-#     rotation: int = 0
-#     color: tuple = PLANE_COLOR
-
-#     def draw(self):
-#         base_coords = [
-#             (-16, 0), (-13, 2), (-15, 7), (-12, 7), (-8, 2), (-1, 2),
-#             (-6, 6), (-5, 6), (8, 2), (16, 2), (19, -2), (8, -2),
-#             (-5, -8), (-6, -8), (-1, -2), (-13, -2)]
-#         rotated = base_coords if self.rotation == 0 else [
-#             (x * math.cos(self.rotation) - y * math.sin(self.rotation),
-#              x * math.sin(self.rotation) + y * math.cos(self.rotation))
-#             for x, y in base_coords]
-#         coords = [(WIDTH//2 + 4*x, self.y - 4*y) for x, y in rotated]
-#         pygame.draw.polygon(screen, self.color, coords)
 
     # The states are:
     
@@ -144,9 +126,6 @@ class Plane(pygame.sprite.Sprite):
             self.y += self.speed * 0.1
             if self.y >= GROUND_LEVEL:
                 self.state = "crashed"
-                # self.color = (255, 0, 0)  # red for crashed
-                # self.speed = 0
-                # self.y = GROUND_LEVEL
         elif self.state == "landing":
             self.y += self.speed * 0.1
             if self.y >= GROUND_LEVEL:
@@ -178,18 +157,16 @@ class Plane(pygame.sprite.Sprite):
             self.y = GROUND_LEVEL
             font.render_to(screen, (WIDTH // 2, HEIGHT // 2), f"Game Over \n Press ENTER to Start Again", (255,255,255))
 
-    def restart(self):
+    def restart(self): #restard method resets the plane to its original parameters
         self.state = "flying"
         self.color = (PLANE_COLOR)
         self.y = CRUISING_ALTITUDE
         self.speed = MAX_PLANE_SPEED
         self.rotation = 0
 
-
-
 plane = Plane(0, y=CRUISING_ALTITUDE)
 
-def rotate(image, rect, rotation):
+def rotate(image, rect, rotation): #rotate function rotates the image when the rotation angle is adjusted
         """rotate an image while keeping its center"""
         rot_image = pygame.transform.rotate(image, rotation)
         rot_rect = plane.rect_center
@@ -218,7 +195,7 @@ def draw_scene():
             draw_runway_lights(x_lights, RUNWAY_TOP + RUNWAY_HEIGHT + 15)
             x_lights += RUNWAY_LIGHT_SPACING
         plane.draw()
-        font.render_to(screen, (WIDTH - 100, 50), f"Score: {score_counter}", (255,255,255) )
+        font.render_to(screen, (WIDTH - 100, 50), f"Score: {score_counter}", (255,255,255) ) #score counter printed here
         plane.move()
     clock.tick(60)
     pygame.display.flip()
@@ -231,7 +208,7 @@ while True:
             raise SystemExit
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN and plane.state == "flying":
-                plane.rotation = -20
+                plane.rotation = -20 #plane rotation angles change and then rotate() is called to set the plane to the new angle
                 plane.image, plane.rect = rotate(plane.image, plane.rect, plane.rotation) 
                 plane.state = "descending"
             elif event.key == pygame.K_UP and plane.state == "descending":
@@ -248,7 +225,7 @@ while True:
             elif event.key == pygame.K_RETURN and plane.state == "down":
                 plane.state = "braking"
             elif event.key == pygame.K_RIGHT and plane.state == "stopped":
-                score_counter += 1
+                score_counter += 1 #score counter increases when the plane reaches the stopped condition
                 plane.state = "starting"
             elif event.key == pygame.K_UP and plane.state == "starting" \
                     and plane.speed == MAX_PLANE_SPEED:
@@ -256,6 +233,6 @@ while True:
                 plane.image, plane.rect = rotate(plane.image, plane.rect, plane.rotation) 
                 plane.state = "rising"
             if event.key == pygame.K_RETURN and plane.state == "crashed":
-                plane.restart() 
-                score_counter = 0
+                plane.restart() #reset method is called when the plane is crashed and the user presses enter 
+                score_counter = 0 #score counter is reset when the game is restarted
     draw_scene()
